@@ -1,19 +1,6 @@
-/**
- * @file Dynamic help command
- * @author Naman Vrati
- * @since 1.0.0
- * @version 3.3.0
- */
-
-// Deconstructing prefix from config file to use in help command
-const { prefix } = require("./../../config.json");
-
-// Deconstructing EmbedBuilder to create embeds within this command
+const { prefix } = require("../../config.json");
 const { EmbedBuilder, ChannelType } = require("discord.js");
 
-/**
- * @type {import('../../typings').LegacyCommand}
- */
 module.exports = {
 	name: "help",
 	description: "List all commands of bot or info about a specific command.",
@@ -25,13 +12,8 @@ module.exports = {
 		const { commands } = message.client;
 
 		// If there are no args, it means it needs whole help command.
-
 		if (!args.length) {
-			/**
-			 * @type {EmbedBuilder}
-			 * @description Help command embed object
-			 */
-
+		
 			let helpEmbed = new EmbedBuilder()
 				.setColor("Random")
 				.setTitle("List of all my commands")
@@ -47,7 +29,6 @@ module.exports = {
 				]);
 
 			// Attempts to send embed in DMs.
-
 			return message.author
 				.send({ embeds: [helpEmbed] })
 
@@ -55,14 +36,13 @@ module.exports = {
 					if (message.channel.type === ChannelType.DM) return;
 
 					// On validation, reply back.
-
 					message.reply({
 						content: "I've sent you a DM with all my commands!",
 					});
 				})
 				.catch((error) => {
+					
 					// On failing, throw error.
-
 					console.error(
 						`Could not send help DM to ${message.author.tag}.\n`,
 						error
@@ -73,12 +53,6 @@ module.exports = {
 		}
 
 		// If argument is provided, check if it's a command.
-
-		/**
-		 * @type {String}
-		 * @description First argument in lower case
-		 */
-
 		const name = args[0].toLowerCase();
 
 		const command =
@@ -86,15 +60,9 @@ module.exports = {
 			commands.find((c) => c.aliases && c.aliases.includes(name));
 
 		// If it's an invalid command.
-
 		if (!command) {
 			return message.reply({ content: "That's not a valid command!" });
 		}
-
-		/**
-		 * @type {EmbedBuilder}
-		 * @description Embed of Help command for a specific command.
-		 */
 
 		let commandEmbed = new EmbedBuilder()
 			.setColor("Random")
@@ -126,7 +94,6 @@ module.exports = {
 			]);
 
 		// Finally send the embed.
-
 		message.channel.send({ embeds: [commandEmbed] });
 	},
 };

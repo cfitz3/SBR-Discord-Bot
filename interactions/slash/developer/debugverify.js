@@ -44,7 +44,7 @@ module.exports = {
             console.log(uuids);
 
             console.log('Writing UUIDs to file...');
-            const directoryPath = path.join(__dirname, '..', '..');
+            const directoryPath = path.join(__dirname, '..', '..', '..');
             const filePath = path.join(directoryPath, 'guildcache.json');
 
             try {

@@ -7,25 +7,27 @@ module.exports = {
     description: 'Prints the contents of a JSON file to the channel',
     cooldown: 3,
     async execute(message, args) {
+         // Check if the user is the developer
+         if (message.author.id !== '729688465041522718') {
+            return message.channel.send("Only the developer can use this command.");
+        }
+       
         // Check if a filename is provided
         if (!args.length) {
             return message.channel.send("Please provide the filename!");
         }
 
-           // Check if the user is the developer
-           if (message.author.id !== '729688465041522718') {
-            return message.channel.send("Only the developer can use this command.");
-        }
-
-        // Construct the file path
-        const directoryPath = 'C:/Users/conno/Desktop/DiscordBot-Template-master/interactions';
-        const fileName = args[0] + '.json';
-        const filePath = path.join(directoryPath, fileName);
-
         try {
+            // Determine the root directory of the bot's project
+            const rootDir = path.resolve(__dirname, '../../');
+
+            // Construct the file path
+            const fileName = args[0];
+            const filePath = path.join(rootDir, fileName);
+
             // Read the contents of the JSON file
             const jsonData = await fs.readFile(filePath, 'utf-8');
-            
+
             // Parse the JSON data
             const data = JSON.parse(jsonData);
 

@@ -1,9 +1,5 @@
-// "fs" declared is used in reloading command cache of the specified command.
 const fs = require("fs");
 
-/**
- * @type {import('../../typings').LegacyCommand}
- */
 module.exports = {
 	name: "reload",
 	description: "Reloads a command",
@@ -11,11 +7,7 @@ module.exports = {
 	ownerOnly: true,
 
 	execute(message, args) {
-		/**
-		 * @type {String}
-		 * @description Name of the specifiied command in lowercase.
-		 */
-
+	
 		   // Check if the user is the developer
 		   if (message.author.id !== '729688465041522718') {
             return message.channel.send("Only the developer can use this command.");
@@ -36,36 +28,19 @@ module.exports = {
 			});
 		}
 
-		/**
-		 * @type {String[]}
-		 * @description Array of all command categories aka folders.
-		 */
-
 		const commandFolders = fs.readdirSync("./commands");
-
-		/**
-		 * @type {String}
-		 * @description Name of the command category/folder of the specified command.
-		 */
-
 		const folderName = commandFolders.find((folder) =>
 			fs.readdirSync(`./commands/${folder}`).includes(`${command.name}.js`)
 		);
 
 		// Deletes current cache of that specified command.
-
 		delete require.cache[
 			require.resolve(`../${folderName}/${command.name}.js`)
 		];
 
 		// Tries Registering command again with new code.
-
 		try {
-			/**
-			 * @type {import('../../typings').LegacyCommand}
-			 * @description The new command (code fetch)
-			 */
-
+		
 			const newCommand = require(`../${folderName}/${command.name}.js`);
 
 			// Now registers the command in commands Collection. If it fails, the catch block will be executed.

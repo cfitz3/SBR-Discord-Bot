@@ -41,7 +41,7 @@ module.exports = {
             const uuids = guildData.members.map(member => ({ uuid: member.uuid }));
             console.log(uuids);
 
-            const directoryPath = path.join(__dirname, '..', '..');
+            const directoryPath = path.join(__dirname, '..', '..', '..');
             const filePath = path.join(directoryPath, 'guildcache.json');
 
             try {

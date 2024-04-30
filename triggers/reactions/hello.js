@@ -1,24 +1,12 @@
-/**
- * @file Sample Trigger command.
- * @author Naman Vrati
- * @since 2.0.0
- * @version 3.2.2
- */
-
-// For now, the only available property is name array. Not making the name array will result in an error.
-
-/**
- * @type {import('../../typings').TriggerCommand}
- */
 module.exports = {
-    name: ['abreadstick109', 'clerk', 'null'],
-
+    name: ['abreadstick109', 'clerk'],
+    cooldown: 5,
     execute(message, args) {
         // Check if the trigger word is "abreadstick109"
         if (message.content.toLowerCase().includes('abreadstick109')) {
             // Send a response
             message.channel.send({
-                content: "imagine winning 200 million coins already wtf",
+                content: "imagine winning 250 million coins already wtf",
             });
 
         // Check if the trigger word is "wither"

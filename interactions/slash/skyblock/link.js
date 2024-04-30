@@ -36,7 +36,7 @@ module.exports = {
                 return interaction.reply({ content: "Your linked Discord account on Hypixel does not match your Discord ID!", ephemeral: true });
             }
 
-            const userDataFilePath = path.join(__dirname, '..', '..', 'guildmembers.json');
+            const userDataFilePath = path.join(__dirname, '..', '..', '..', 'guildmembers.json');
             let userData = {};
 
             try {
