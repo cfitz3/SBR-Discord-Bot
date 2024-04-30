@@ -1,0 +1,9 @@
+{
+	"prefix": "!",
+	"token": "bot_token",
+	"owner": "withercloakid",
+	"client_id": "bot_id",
+	"test_guild_id": "debugging_server",
+	"hypixel_api_token": "apitoken",
+	"channelId": "commandchannel"
+}
