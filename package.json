@@ -1,0 +1,46 @@
+{
+	"name": "sbr-bot",
+	"version": "0.0.1",
+	"description": "An attempt at automating some elements of the guild's discord server",
+	"funding": "https://ko-fi.com/namanvrati",
+	"types": "./typings.d.ts",
+	"main": "bot.js",
+	"scripts": {
+		"start": "node bot.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NamVr/DiscordBot-Template.git"
+	},
+	"keywords": [
+		"discord-js"
+	],
+	"author": {
+		"name": "Naman Vrati",
+		"url": "https://github.com/NamVr",
+		"email": "info@namanvrati.cf"
+	},
+	"contributors": [
+		{
+			"name": "Krish Garg",
+			"url": "https://github.com/KrishGarg"
+		},
+		{
+			"name": "Thomas Fournier",
+			"email": "thomas@artivain.com",
+			"url": "https://github.com/GoudronViande24"
+		}
+	],
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/NamVr/DiscordBot-Template/issues"
+	},
+	"homepage": "https://github.com/NamVr/DiscordBot-Template#readme",
+	"dependencies": {
+		"axios": "^1.6.8",
+		"discord-api-types": "^0.37.43",
+		"discord.js": "^14.14.1",
+		"hypixel-api-reborn": "^11.1.0",
+		"node-cron": "^3.0.3"
+	}
+}
