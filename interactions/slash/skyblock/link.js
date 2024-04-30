@@ -1,15 +1,10 @@
-
-//Import Dependencies
-//================================================================//
-
+// Import Dependencies
 const fs = require('fs').promises;
 const path = require('path');
 const hypixel = require('../../../hypixel.js');
 const { SlashCommandBuilder } = require("discord.js");
 
-//Create Slash Command
-//================================================================//
-
+// Create Slash Command
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('link')
@@ -19,9 +14,7 @@ module.exports = {
                 .setDescription('Your Minecraft username.')
                 .setRequired(true)),
 
-//Execution Flow for Player Link
-//================================================================//
-
+    // Execution Flow for Player Link
     async execute(interaction) {
         try {
             const playerName = interaction.options.getString('player_name');
@@ -58,7 +51,23 @@ module.exports = {
             }
 
             await fs.writeFile(userDataFilePath, JSON.stringify(userData, null, 2));
-            
+
+            // Add the role to the member if their highest role position is lower than ROLEID
+            const roleName = "1223804019030360216"; // Replace ROLEID with the actual ID of the role
+            const member = interaction.member;
+            const guildRoles = interaction.guild.roles.cache;
+            const targetRole = guildRoles.find(role => role.id === roleName);
+
+            if (!targetRole) {
+                return interaction.reply({ content: `Error: Role with ID ${roleName} not found!`, ephemeral: true });
+            }
+
+            const userHighestRole = member.roles.highest;
+
+            if (userHighestRole.comparePositionTo(targetRole) < 0) {
+                await member.roles.add(targetRole);
+            }
+
             await interaction.reply({ content: "Your Discord account has been linked successfully!", ephemeral: true });
         } catch (error) {
             console.error('Error checking player information:', error);
