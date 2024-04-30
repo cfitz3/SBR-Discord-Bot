@@ -21,5 +21,3 @@ client.on('guildMemberAdd', member => {
 
     channel.send({ content: `${member.user}, ${greeting}` });
 });
-
-client.login('YOUR_BOT_TOKEN');
