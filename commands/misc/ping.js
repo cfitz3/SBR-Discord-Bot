@@ -1,27 +1,19 @@
-const { MessageEmbed } = require('discord.js');
-
 module.exports = {
     name: "ping",
-
     execute(message, args) {
         const start = Date.now();
 
         // Your customizable message string
         const customMessage = "I'm online!";
 
-        message.channel.send({ content: customMessage }).then(sentMessage => {
+        message.channel.send(customMessage).then(sentMessage => {
             const end = Date.now();
             const responseTime = end - start;
             const uptime = formatUptime(message.client.uptime);
 
-            const embed = new MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle('Ping!')
-                .addField('Custom Message', customMessage)
-                .addField('Response Time', `${responseTime}ms`)
-                .addField('Uptime', uptime);
+            const text = `Ping!\nCustom Message: ${customMessage}\nResponse Time: ${responseTime}ms\nUptime: ${uptime}`;
 
-            sentMessage.edit({ content: null, embeds: [embed] });
+            sentMessage.edit(text);
         });
     },
 };
