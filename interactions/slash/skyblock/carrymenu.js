@@ -21,7 +21,7 @@ module.exports = {
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Master Mode')
                     .setDescription('Pricing/Carrier Information for Master Mode Carries')
-                    .setValue('master mode'),
+                    .setValue('master_mode'),
             );
 
         // Build the example embed
