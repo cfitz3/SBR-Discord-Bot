@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('editjson')
+        .setName('editfile')
         .setDescription('Edit a JSON file with provided data')
         .addStringOption(option =>
             option.setName('filename')
