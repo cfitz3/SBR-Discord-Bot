@@ -1,12 +1,11 @@
-const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, EmbedBuilder, ComponentType } = require('discord.js');
+const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('menutest')
-        .setDescription('Simply just sends a test menu.'),
+        .setName('carrymenu')
+        .setDescription('Sends the SBR Carry menu in the current chat.'),
     async execute(interaction) {
-        console.log('Received interaction:', interaction);
-
+        // Define the select menu options
         const select = new StringSelectMenuBuilder()
             .setCustomId('carries')
             .setPlaceholder('Make a selection!')
@@ -25,9 +24,7 @@ module.exports = {
                     .setValue('master mode'),
             );
 
-        const row = new ActionRowBuilder()
-            .addComponents(select);
-
+        // Build the example embed
         const exampleEmbed = new EmbedBuilder()
             .setColor(0xFF69B4)
             .setTitle('Carry Information:')
@@ -42,36 +39,18 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
 
-        console.log('Deferring initial interaction...');
-        await interaction.deferReply({ ephemeral: false });
-
-        console.log('Sending initial message...');
-        await interaction.editReply({
+        // Send the initial message with the select menu and embed
+        await interaction.reply({
             content: 'What would you like to learn more about?',
             embeds: [exampleEmbed],
-            components: [row],
-        });
-
-        console.log('Setting up collector...');
-        const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.SELECT_MENU, time: 20_000 });
-
-        // Add logging to track interaction reply status
-        console.log('Interaction replied:', interaction.replied);
-        console.log('Interaction deferred:', interaction.deferred);
-
-        collector.on('collect', i => {
-            console.log('Interaction collected:', i);
-            if (i.user.id === interaction.user.id) {
-                console.log(`${i.user.id} selected the ${i.values[0]} option.`);
-                interaction.reply(`${i.user.id} selected the ${i.values[0]} option.`); // Use interaction.reply() here
-            } else {
-                console.log(`This menu isn't for ${i.user.id}!`);
-                interaction.reply({ content: `This menu isn't for you!`, ephemeral: true }); // Use interaction.reply() here
-            }
-        });
-
-        collector.on('end', collected => {
-            console.log(`Collected ${collected.size} interactions.`);
+            components: [
+                {
+                    type: 1, // Row type
+                    components: [
+                        select,
+                    ],
+                },
+            ],
         });
     },
 };

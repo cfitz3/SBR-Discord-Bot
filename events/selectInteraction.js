@@ -1,34 +1,29 @@
 const { Events } = require("discord.js");
+const fs = require("fs");
 
 module.exports = {
-	name: Events.InteractionCreate,
-	async execute(interaction) {
-		// Deconstructed client from interaction object.
-		const { client } = interaction;
+    name: Events.InteractionCreate,
+    async execute(interaction) {
+        // Check if the interaction is a select menu interaction
+        if (!interaction.isStringSelectMenu()) return;
 
-		// Checks if the interaction is a select menu interaction (to prevent weird bugs)
+        // Check which option was selected
+        const selectedOption = interaction.values[0];
 
-		if (!interaction.isStringSelectMenu()) return;
+        // Read the response from the corresponding JSON file
+        const filePath = `./responses/${selectedOption}.json`;
+        let response;
+        try {
+            response = JSON.parse(fs.readFileSync(filePath, "utf8")).response;
+        } catch (error) {
+            console.error(error);
+            response = 'Invalid selection.';
+        }
 
-		const command = client.selectCommands.get(interaction.customId);
-
-		// If the interaction is not a command in cache, return error message.
-		// You can modify the error message at ./messages/defaultSelectError.js file!
-
-		if (!command) {
-			return await require("../messages/defaultSelectError").execute(interaction);
-		}
-
-		// A try to execute the interaction.
-
-		try {
-			await command.execute(interaction);
-		} catch (err) {
-			console.error(err);
-			await interaction.reply({
-				content: "There was an issue while executing that select menu option!",
-				ephemeral: true,
-			});
-		}
-	},
+        // Reply to the interaction with the response
+        await interaction.reply({
+            content: response,
+            ephemeral: true,
+        });
+    },
 };
