@@ -10,8 +10,9 @@ const { SlashCommandBuilder, EmbedBuilder, embedLength } = require("discord.js")
         .setColor(0xFF69B4)
         .setTitle('Your linked Discord account on Hypixel does not match your Discord ID!')
         .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
-        .setDescription(':no_entry_sign: Oh no! It seems your Discord account is not linked on Hypixel. Join Hypixel and follow the steps below to fix this.')
+        .setDescription(':no_entry_sign: Oh no! It seems your Discord account is not linked on Hypixel. Follow the steps below to fix this.')
         .addFields({ name: ':recycle: Linking your Discord Account:', value: 'Follow these steps to link your account:\n\n1. Click on `My Profile` (Right Click) in a Hypixel lobby\n2. Click on `Social Media`\n3. Left-click on `Discord`\n4. Paste your Discord username in chat', inline: true })
+        .setImage('https://cdn.discordapp.com/attachments/1179906098191417405/1237419447791386665/5F8A84FD-09DD-41E1-9B39-26A092733610.jpg?ex=663b942a&is=663a42aa&hm=8a65956621f9a06533e9789735055d577e8e78be0ad48e591c72a8dffc3448c2&')
         .setTimestamp()
         .setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
 
