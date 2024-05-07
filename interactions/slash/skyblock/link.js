@@ -2,7 +2,19 @@
 const fs = require('fs').promises;
 const path = require('path');
 const hypixel = require('../../../hypixel.js');
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, embedLength } = require("discord.js");
+
+
+// Build the example embed
+    const linkHelp = new EmbedBuilder()
+        .setColor(0xFF69B4)
+        .setTitle('Your linked Discord account on Hypixel does not match your Discord ID!')
+        .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+        .setDescription(':no_entry_sign: Oh no! It seems your Discord account is not linked on Hypixel. Join Hypixel and follow the steps below to fix this.')
+        .addFields({ name: ':recycle: Linking your Discord Account:', value: 'Follow these steps to link your account:\n\n1. Click on `My Profile` (Right Click) in a Hypixel lobby\n2. Click on `Social Media`\n3. Left-click on `Discord`\n4. Paste your Discord username in chat', inline: true })
+        .setTimestamp()
+        .setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
+
 
 // Create Slash Command
 module.exports = {
@@ -14,6 +26,7 @@ module.exports = {
                 .setDescription('Your Minecraft username.')
                 .setRequired(true)),
 
+
     // Execution Flow for Player Link
     async execute(interaction) {
         try {
@@ -21,12 +34,12 @@ module.exports = {
             const player = await hypixel.getPlayer(playerName).catch(console.error);
 
             if (!player) {
-                return interaction.reply({ content: `Player ${playerName} does not exist.`, ephemeral: true });
+                return interaction.reply({ content: 'Your Discord account is not linked!', embeds: [linkHelp], ephemeral: true });
             }
 
             const discordLink = player.socialMedia.find(s => s.id === 'DISCORD');
             if (!discordLink || discordLink.link !== interaction.user.tag) {
-                return interaction.reply({ content: "Your linked Discord account on Hypixel does not match your Discord ID!", ephemeral: true });
+                return interaction.reply({ content: "", embeds: [linkHelp], ephemeral: false });
             }
 
             const userDataFilePath = path.join(__dirname, '..', '..', '..', 'guildmembers.json');

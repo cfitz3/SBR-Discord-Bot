@@ -3,6 +3,7 @@
 .vscode/
 .idea/
 .node-version
+/hypixel.js
 
 # Logs
 logs
