@@ -12,15 +12,15 @@ module.exports = {
             .addOptions(
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Slayer')
-                    .setDescription('Pricing/Carrier Information for Slayer Carries')
+                    .setDescription('Pricing Information for Slayer Carries')
                     .setValue('slayer'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Dungeons')
-                    .setDescription('Pricing/Carrier Information for Dungeon Carries')
+                    .setDescription('Pricing Information for Dungeon Carries')
                     .setValue('dungeons'),
                 new StringSelectMenuOptionBuilder()
                     .setLabel('Master Mode')
-                    .setDescription('Pricing/Carrier Information for Master Mode Carries')
+                    .setDescription('Pricing Information for Master Mode Carries')
                     .setValue('master_mode'),
             );
 
@@ -29,13 +29,13 @@ module.exports = {
             .setColor(0xFF69B4)
             .setTitle('Carry Information:')
             .setAuthor({ name: 'Skyblock and Relax', iconURL: 'https://i.imgur.com/eboO5Do.png' })
-            .setDescription('blah blah blah information about carries in the dropdown menu blah blah blah select an option to see more!')
+            .setDescription('Pricing information and a list of available carry services can be seen below using the dropdown menu! If you have any questions or would like to buy a carry, please feel free to open a ticket!')
             .addFields(
                 { name: '\u200B', value: '\u200B' },
-                { name: 'Dungeon Carries', value: 'Information about dungeon carries below.', inline: true },
-                { name: 'Master Mode Carries', value: 'Information about master mode carries below.', inline: true },
+                { name: '<:f7:1235704894732767263> Dungeon Carries', value: 'Pricing Information for Dungeon Carries (Floor 4-Floor 7).', inline: true },
+                { name: '<:mm7:1235704840819183766> Master Mode Carries', value: 'Pricing Information for Master Mode Carries (MM1-MM6).', inline: true },
             )
-            .addFields({ name: 'Slayer Carries', value: 'Information about slayer carries below.', inline: true })
+            .addFields({ name: '<:batphone:1235704806274760745> Slayer Carries', value: 'Pricing Information for Slayer Carries (Voidgloom T4 | Rev T5).', inline: true })
             .setTimestamp()
             .setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
 
