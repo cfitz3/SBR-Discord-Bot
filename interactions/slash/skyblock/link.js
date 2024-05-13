@@ -9,7 +9,7 @@ const {guestRole} = require('../../../config.json');
 // Create Slash Command
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('linktest')
+        .setName('link')
         .setDescription('Link your Discord account with our bot.')
         .addStringOption(option =>
             option.setName('player_name')
