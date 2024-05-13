@@ -5,5 +5,7 @@
 	"client_id": "bot_id",
 	"test_guild_id": "debugging_server",
 	"hypixel_api_token": "apitoken",
-	"channelId": "commandchannel"
+	"channelId": "commandchannel",
+	"guildrole": "roleid",
+	"guestrole": "roleid"
 }

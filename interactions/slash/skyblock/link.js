@@ -1,90 +1,104 @@
 // Import Dependencies
 const fs = require('fs').promises;
 const path = require('path');
-const hypixel = require('../../../hypixel.js');
-const { SlashCommandBuilder, EmbedBuilder, embedLength } = require("discord.js");
-
-
-// Build the example embed
-    const linkHelp = new EmbedBuilder()
-        .setColor(0xFF69B4)
-        .setTitle('Your linked Discord account on Hypixel does not match your Discord ID!')
-        .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
-        .setDescription(':x: Oh no! It seems your Discord account is not linked on Hypixel. Follow the steps below to fix this.')
-        .addFields({ name: ':recycle: Linking your Discord Account:', value: 'Follow these steps to link your account:\n\n1. Click on `My Profile` (Right Click) in a Hypixel lobby\n2. Click on `Social Media`\n3. Left-click on `Discord`\n4. Paste your Discord username in chat', inline: true })
-        .setTimestamp()
-        .setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
-
+const { SlashCommandBuilder } = require("discord.js");
+const fetchPlayerInfo = require('../../../api/fetchplayer.js');
+const {linkHelp} = require('../../../responses/embeds/linkhelp.js');
+const {guestRole} = require('../../../config.json');
 
 // Create Slash Command
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('link')
+        .setName('linktest')
         .setDescription('Link your Discord account with our bot.')
         .addStringOption(option =>
             option.setName('player_name')
                 .setDescription('Your Minecraft username.')
                 .setRequired(true)),
+            
+                    // Execution Flow for Player Link
+                    async execute(interaction) {
+                        try {
+                            // Get the player name from the interaction options
+                            const playerName = interaction.options.getString('player_name');
+                    
+                            // Fetch player information from the API
+                            let player;
+                            try {
+                                player = await fetchPlayerInfo(playerName);
+                            } catch (error) {
+                                console.error('Error fetching player information:', error);
+                                return interaction.reply({ content: 'An error occurred while fetching your player information. Please try again later.', ephemeral: true });
+                            }
+                    
+                            if (!player) {
+                                // If player information is not found, reply with an error message and link help embed
+                                return interaction.reply({ content: 'Oopsie!', embeds: [linkHelp], ephemeral: true });
+                            }
+                    
+                            // Check if the player's Discord account is linked
+                            const discordLink = player.socialMedia.find(s => s.id === 'DISCORD');
+                            if (!discordLink || discordLink.link !== interaction.user.tag) {
+                                // If the player's Discord account is not linked, reply with an error message and link help embed
+                                return interaction.reply({ content: "Oopsie!", embeds: [linkHelp], ephemeral: true });
+                            }
+                    
+                            // Check if the player has a guild
+                    
+    
+                            // Path to the file storing user data
+                            const userDataFilePath = path.join(__dirname, '..', '..', '..', 'database/guildmembers.json');
+                            let userData = {};
 
+                            try {
+                                // Read the user data from the file
+                                const guildMembersData = await fs.readFile(userDataFilePath, 'utf8');
+                                userData = JSON.parse(guildMembersData);
+                            } catch (error) {
+                                console.error('Error reading the Guild Database:', error);
+                            }
 
-    // Execution Flow for Player Link
-    async execute(interaction) {
-        try {
-            const playerName = interaction.options.getString('player_name');
-            const player = await hypixel.getPlayer(playerName).catch(console.error);
+                            const userId = interaction.user.id;
 
-            if (!player) {
-                return interaction.reply({ content: 'Oopsie!', embeds: [linkHelp], ephemeral: true });
-            }
+                            if (userData[userId]) {
+                                // Update the user's UUID if it already exists in the user data
+                                userData[userId].uuid = player.uuid;
+                            } else {
+                                // Add a new entry for the user in the user data
+                                userData[userId] = {
+                                    username: interaction.user.username,
+                                    uuid: player.uuid
+                                };
+                            }
 
-            const discordLink = player.socialMedia.find(s => s.id === 'DISCORD');
-            if (!discordLink || discordLink.link !== interaction.user.tag) {
-                return interaction.reply({ content: "Oopsie!", embeds: [linkHelp], ephemeral: false });
-            }
+                            // Write the updated user data to the file
+                            await fs.writeFile(userDataFilePath, JSON.stringify(userData, null, 2));
 
-            const userDataFilePath = path.join(__dirname, '..', '..', '..', 'guildmembers.json');
-            let userData = {};
+                            // Add a role to the member if their highest role position is lower than ROLEID 
+                            const member = interaction.member;
+                            const guildRoles = interaction.guild.roles.cache;
+                            const targetRole = guildRoles.find(role => role.id === guestRole);
 
-            try {
-                const guildMembersData = await fs.readFile(userDataFilePath, 'utf8');
-                userData = JSON.parse(guildMembersData);
-            } catch (error) {
-                console.error('Error reading guildmembers.json:', error);
-            }
+                            if (!targetRole) {
+                                // If the target role is not found, reply with an error message
+                                return interaction.reply({ content: `Error: Role not found!`, ephemeral: true });
+                            }
 
-            const userId = interaction.user.id;
+                            const userHighestRole = member.roles.highest;
 
-            if (userData[userId]) {
-                userData[userId].uuid = player.uuid;
-            } else {
-                userData[userId] = {
-                    username: interaction.user.username,
-                    uuid: player.uuid
+                            if (userHighestRole.comparePositionTo(targetRole) < 0) {
+                                // Add the target role to the member if their highest role position is lower
+                                await member.roles.add(targetRole);
+                            }
+
+                            // Reply with a success message
+                            await interaction.reply({ content: "Your Discord account has been linked successfully!", ephemeral: true });
+                        } catch (error) {
+                            console.error('Error checking player information:', error);
+                            // Reply with an error message if there is an error fetching player data
+                            await interaction.reply({ content: `Error: Unable to fetch player data`, ephemeral: true });
+                        
+                        }
+                    },
                 };
-            }
-
-            await fs.writeFile(userDataFilePath, JSON.stringify(userData, null, 2));
-
-            // Add the role to the member if their highest role position is lower than ROLEID
-            const roleName = "1223804019030360216"; // Replace ROLEID with the actual ID of the role
-            const member = interaction.member;
-            const guildRoles = interaction.guild.roles.cache;
-            const targetRole = guildRoles.find(role => role.id === roleName);
-
-            if (!targetRole) {
-                return interaction.reply({ content: `Error: Role with ID ${roleName} not found!`, ephemeral: true });
-            }
-
-            const userHighestRole = member.roles.highest;
-
-            if (userHighestRole.comparePositionTo(targetRole) < 0) {
-                await member.roles.add(targetRole);
-            }
-
-            await interaction.reply({ content: "Your Discord account has been linked successfully!", ephemeral: true });
-        } catch (error) {
-            console.error('Error checking player information:', error);
-            await interaction.reply({ content: `Error: Unable to fetch player data`, ephemeral: true });
-        }
-    },
-};
+             
