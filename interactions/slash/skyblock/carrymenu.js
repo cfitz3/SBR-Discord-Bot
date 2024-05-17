@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
+    ownerOnly: true,
     data: new SlashCommandBuilder()
         .setName('carrymenu')
         .setDescription('Sends the SBR Carry menu in the current chat.'),
