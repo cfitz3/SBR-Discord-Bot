@@ -1,10 +1,19 @@
 // Import Dependencies
 const fs = require('fs').promises;
 const path = require('path');
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetchPlayerInfo = require('../../../api/fetchplayer.js');
-const {linkHelp} = require('../../../responses/embeds/linkhelp.js');
 const {guestRole} = require('../../../config.json');
+
+const linkHelp = new EmbedBuilder()
+        .setColor(0xFF69B4)
+        .setTitle('Your linked Discord account on Hypixel does not match your Discord ID!')
+        .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+        .setDescription(':no_entry_sign: Oh no! It seems your Discord account is not linked on Hypixel. Join Hypixel and follow the steps below to fix this.')
+        .addFields({ name: ':recycle: Linking your Discord Account:', value: 'Follow these steps to link your account:\n\n1. Click on `My Profile` (Right Click) in a Hypixel lobby\n2. Click on `Social Media`\n3. Left-click on `Discord`\n4. Paste your Discord username in chat', inline: true })
+        .setTimestamp()
+        .setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
+
 
 // Create Slash Command
 module.exports = {
@@ -15,6 +24,7 @@ module.exports = {
             option.setName('player_name')
                 .setDescription('Your Minecraft username.')
                 .setRequired(true)),
+                
             
                     // Execution Flow for Player Link
                     async execute(interaction) {
