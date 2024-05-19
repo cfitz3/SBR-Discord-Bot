@@ -34,6 +34,7 @@ module.exports = {
 
             // Convert JSON data to string
             const jsonString = JSON.stringify(data, null, 2);
+            console.log(jsonString);
 
             // Split the string into chunks less than 2000 characters
             const chunkSize = 1500;
@@ -57,3 +58,4 @@ module.exports = {
         }
     },
 };
+
