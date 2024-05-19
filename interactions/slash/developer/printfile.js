@@ -36,16 +36,21 @@ module.exports = {
             const jsonString = JSON.stringify(data, null, 2);
 
             // Split the string into chunks less than 2000 characters
-            const chunkSize = 2000;
+            const chunkSize = 1500;
             const chunks = [];
             for (let i = 0; i < jsonString.length; i += chunkSize) {
                 chunks.push(jsonString.substring(i, i + chunkSize));
             }
 
-            // Send each chunk to the channel
-            for (const chunk of chunks) {
-                await interaction.reply({ content: `\`\`\`json\n${chunk}\n\`\`\``, ephemeral: true });
-            }
+           // Send the first chunk to the channel
+            if (chunks.length > 0) {
+             await interaction.reply({ content: `\`\`\`json\n${chunks[0]}\n\`\`\``, ephemeral: true });
+        }
+
+            // Send the remaining chunks to the channel
+            for (let i = 1; i < chunks.length; i++) {
+             await interaction.followUp({ content: `\`\`\`json\n${chunks[i]}\n\`\`\``, ephemeral: true });
+        }
         } catch (error) {
             console.error(error);
             await interaction.reply({ content: 'There was an error while reading or parsing the JSON file.', ephemeral: true });
