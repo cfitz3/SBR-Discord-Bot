@@ -5,6 +5,15 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetchPlayerInfo = require('../../../api/fetchplayer.js');
 const {guestRole} = require('../../../config.json');
 
+const fuck =  new EmbedBuilder()
+.setColor(0xFF69B4)
+.setTitle('This account does not exist.')
+.setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+.setDescription('Recheck your input and try again. If you are sure you have entered the correct username, please contact a staff member.')
+.setTimestamp()
+.setFooter({ text: 'Need help? Open a ticket in #support or contact @withercloak' });
+
+
 const linkHelp = new EmbedBuilder()
         .setColor(0xFF69B4)
         .setTitle('Your linked Discord account on Hypixel does not match your Discord ID!')
@@ -29,6 +38,9 @@ module.exports = {
                     // Execution Flow for Player Link
                     async execute(interaction) {
                         try {
+                            // Defer the reply
+                            await interaction.deferReply({ ephemeral: true });
+
                             // Get the player name from the interaction options
                             const playerName = interaction.options.getString('player_name');
                     
@@ -38,24 +50,21 @@ module.exports = {
                                 player = await fetchPlayerInfo(playerName);
                             } catch (error) {
                                 console.error('Error fetching player information:', error);
-                                return interaction.reply({ content: 'An error occurred while fetching your player information. Please try again later.', ephemeral: true });
+                                return interaction.editReply({ content: 'An error occurred while fetching your player information. Please try again later.' });
                             }
                     
                             if (!player) {
                                 // If player information is not found, reply with an error message and link help embed
-                                return interaction.reply({ content: 'Oopsie!', embeds: [linkHelp], ephemeral: true });
+                                return interaction.editReply({ content: 'Oopsie!', embeds: [fuck] });
                             }
-                    
+
                             // Check if the player's Discord account is linked
                             const discordLink = player.socialMedia.find(s => s.id === 'DISCORD');
                             if (!discordLink || discordLink.link !== interaction.user.tag) {
                                 // If the player's Discord account is not linked, reply with an error message and link help embed
-                                return interaction.reply({ content: "Oopsie!", embeds: [linkHelp], ephemeral: true });
+                                return interaction.editReply({ content: "Oopsie!", embeds: [linkHelp] });
                             }
                     
-                            // Check if the player has a guild
-                    
-    
                             // Path to the file storing user data
                             const userDataFilePath = path.join(__dirname, '..', '..', '..', 'database/guildmembers.json');
                             let userData = {};
@@ -91,7 +100,7 @@ module.exports = {
 
                             if (!targetRole) {
                                 // If the target role is not found, reply with an error message
-                                return interaction.reply({ content: `Error: Role not found!`, ephemeral: true });
+                                return interaction.editReply({ content: `Error: Role not found!` });
                             }
 
                             const userHighestRole = member.roles.highest;
@@ -102,13 +111,11 @@ module.exports = {
                             }
 
                             // Reply with a success message
-                            await interaction.reply({ content: "Your Discord account has been linked successfully!", ephemeral: true });
+                            await interaction.editReply({ content: "Your Discord account has been linked successfully!" });
                         } catch (error) {
                             console.error('Error checking player information:', error);
                             // Reply with an error message if there is an error fetching player data
-                            await interaction.reply({ content: `Error: Unable to fetch player data`, ephemeral: true });
-                        
+                            await interaction.editReply({ content: `Error: Unable to fetch player data` });
                         }
                     },
                 };
-             
