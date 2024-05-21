@@ -18,9 +18,19 @@ const linkHelpButton = new ButtonBuilder()
         .setLabel('Link Help')
         .setStyle(ButtonStyle.Success);
 
+const restartGuildButton = new ButtonBuilder()
+        .setCustomId('restartGuildButton')
+        .setLabel('Restart Guild Bot')
+        .setStyle(ButtonStyle.Danger);
+
+const restartBridgeButton = new ButtonBuilder()
+        .setCustomId('restartBridgeButton')
+        .setLabel('Restart Bridge Bot')
+        .setStyle(ButtonStyle.Danger);
+
         const helpRow = new ActionRowBuilder()
-            .addComponents(syncHelpButton, linkHelpButton);
-            console.log(helpRow);
+            .addComponents(syncHelpButton, linkHelpButton, restartGuildButton, restartBridgeButton);
+            console.log(helpRow);   
 
 module.exports = {
     data: new SlashCommandBuilder()

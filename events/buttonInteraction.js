@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder } = require('discord.js');
+const { Events, EmbedBuilder, ModalBuilder } = require('discord.js');
 const { syncHelp, linkHelp } = require('../responses/embeds/modHelp.js');
 
 module.exports = {
@@ -11,8 +11,9 @@ module.exports = {
       } else if (interaction.customId === 'linkHelpButton') {
         await interaction.reply({ embeds: [linkHelp] });
 
-      } else if(interaction.customId === 'verifyButton'){
-        await interaction.reply({ content: 'You clicked the verify button!', ephemeral: true });
+      } else if(interaction.customId === 'restartGuildButton'){
+        await interaction.reply({ content: 'Restarting the bot...', ephemeral: true });
+        process.exit();
       }
     
     }
