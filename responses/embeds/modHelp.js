@@ -6,7 +6,7 @@ const syncHelp = new EmbedBuilder()
     .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
     .setDescription('Having difficulty syncing your guild roles? Follow the steps below to sort that out :)')
     .addFields(
-        { name: ':recycle: Verification/Sync:', value: 'Follow these steps to verify your membership and sync your roles:\n\n1. Ensure you have linked your account to our system with /link.\n2. Run /verify using <@1233695323092684842>\n3. You are now verified!', inline: true }
+        { name: ':recycle: Verification/Sync:', value: 'Follow these steps to verify your membership and sync your roles:\n\n1. Ensure you have linked your account to our system with /link.\n2. Run /sync using <@1233695323092684842>\n3. You are now verified!', inline: true }
     )
     .setTimestamp()
     

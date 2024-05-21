@@ -7,7 +7,7 @@ const path = require('path');
 // Build Slash Command
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('verify')
+        .setName('sync')
         .setDescription('Verify that you are in the guild and sync your roles!'),
 
     // Execution flow for verification
