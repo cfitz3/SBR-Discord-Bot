@@ -23,14 +23,14 @@ const restartGuildButton = new ButtonBuilder()
         .setLabel('Restart Guild Bot')
         .setStyle(ButtonStyle.Danger);
 
-const restartBridgeButton = new ButtonBuilder()
-        .setCustomId('restartBridgeButton')
-        .setLabel('Restart Bridge Bot')
-        .setStyle(ButtonStyle.Danger);
+const manualGuildRefreshButton = new ButtonBuilder()
+        .setCustomId('manualGuildRefreshButton')
+        .setLabel('Refresh Guild Data')
+        .setStyle(ButtonStyle.Success);
 
         const helpRow = new ActionRowBuilder()
-            .addComponents(syncHelpButton, linkHelpButton, restartGuildButton, restartBridgeButton);
-            console.log(helpRow);   
+            .addComponents(syncHelpButton, linkHelpButton, manualGuildRefreshButton, restartGuildButton);
+             
 
 module.exports = {
     data: new SlashCommandBuilder()

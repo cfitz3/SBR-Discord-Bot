@@ -2,7 +2,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const fetchPlayerInfo = require('../../../api/fetchplayer.js');
+const fetchPlayerInfo = require('../../../api/fetchPlayerInfo.js');
 const {guestRole} = require('../../../config.json');
 
 const fuck =  new EmbedBuilder()

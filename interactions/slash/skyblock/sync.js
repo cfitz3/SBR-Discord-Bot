@@ -1,8 +1,13 @@
 // Import Dependencies
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fetchGuildInfo = require('../../../api/fetchguild.js');
+const fetchGuildInfo = require('../../../api/fetchGuildInfo.js');
 const fs = require('fs').promises;
 const path = require('path');
+
+const basePath = path.join(__dirname, '..', '..', '..', 'database');
+const guildPath = path.join(basePath, 'guildcache.json');
+const userPath = path.join(basePath, 'guildmembers.json');
+
 
 // Build Slash Command
 module.exports = {
@@ -12,38 +17,22 @@ module.exports = {
 
     // Execution flow for verification
     async execute(interaction) {
-        let replied = false;
-
         try {
-            const guildName = 'Skyblock and Relax';
-            const guildData = await fetchGuildInfo(guildName);
-
+            const guildData = await fetchGuildInfo('Skyblock and Relax');
             if (!guildData || !guildData.members) {
                 throw new Error('Failed to fetch guild information! Please try again later.');
             }
 
             const uuids = guildData.members.map(member => ({ uuid: member.uuid }));
-            console.log(uuids);
 
             // Save UUIDs to database/guildcache.json
-            const directoryPath = path.join(__dirname, '..', '..','..');
-            const guildPath = path.join(directoryPath, 'database/guildcache.json');
-            const userPath = path.join(directoryPath, 'database/guildmembers.json')
+             try {
+                await fs.writeFile(filePath, JSON.stringify(uuids, null, 2), 'utf-8');
 
-            try {
-                const existingData = await fs.readFile(guildPath, 'utf-8');
-                const existingUUIDs = JSON.parse(existingData);
-                const newUUIDs = uuids.filter(uuid => !existingUUIDs.some(entry => entry.uuid === uuid.uuid));
-                const updatedUUIDs = [...existingUUIDs, ...newUUIDs];
-
-                if (newUUIDs.length > 0) {
-                    await fs.writeFile(guildPath, JSON.stringify(updatedUUIDs, null, 2), 'utf-8');
-                    console.log('UUIDs written to guildcache.json');
-                }
             } catch (error) {
+                
                 // If guildcache.json does not exist, create it and write UUIDs
                 await fs.writeFile(guildPath, JSON.stringify(uuids, null, 2), 'utf-8');
-                console.log('UUIDs written to guildcache.json');
             }
 
             // Read the updated guildcache.json and user's data from guildmembers.json
@@ -77,10 +66,8 @@ module.exports = {
         } catch (error) {
             console.error('Error executing refreshverify command:', error);
             
-            if (!replied) {
                 // Send error message if verification fails
                 await interaction.reply({ content: `Failed to verify ${interaction.user.toString()}, please run /link and try again!`, ephemeral: true });
             }
         }
-    },
-};
+    };

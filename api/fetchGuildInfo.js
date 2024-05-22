@@ -1,11 +1,17 @@
-// Description: Fetch guild information from Hypixel API with retries.
+
+/**
+ * Fetches guild information from Hypixel API.
+ * @param {string} guildName - The name of the guild to fetch information for.
+ * @returns {Promise<Object|null>} - A promise that resolves to the guild information object, or null if fetching fails.
+ */
+
 const hypixel = require('../hypixel.js');
 
-// Fetch player information with retries
+
 module.exports = async function fetchGuildInfo(guildName) {
     let retryCount = 0;
     const maxRetries = 3;
-    const retryInterval = 3000; // 3 seconds
+    const retryInterval = 3000;
 
     while (retryCount < maxRetries) {
         try {

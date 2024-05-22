@@ -7,7 +7,7 @@ const cachePath = path.join(__dirname, '..', '..', '..', 'database/guildcache.js
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('checklink')
+        .setName('linkedmembers')
         .setDescription('Cross-check the guild members and cache data'),
     async execute(interaction) {
 
@@ -17,14 +17,14 @@ module.exports = {
 
         // Convert the members object to an array and include the Discord ID
         const members = Object.entries(membersObject).map(([id, member]) => ({...member, id}));
-
+    
         // Read the guild cache data
         const cacheData = fs.readFileSync(cachePath, 'utf8');
         const cacheObject = JSON.parse(cacheData);
 
         // Convert the cache object to an array and include the Discord ID
         const cache = Object.entries(cacheObject).map(([id, member]) => ({...member, id}));
-
+        
         // Extract the member objects with uuid values from the members and cache data
         const memberObjects = members.map(member => ({uuid: member.uuid, username: member.username, id: member.id}));
         const cacheObjects = cache.map(member => ({uuid: member.uuid, username: member.username, id: member.id}));
