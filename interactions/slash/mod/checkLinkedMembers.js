@@ -1,3 +1,8 @@
+/**
+ * The fs module provides an API for interacting with the file system in a way that is modeled on standard POSIX functions.
+ * @namespace fs
+ */
+
 const fs = require('fs');
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const path = require('path');
