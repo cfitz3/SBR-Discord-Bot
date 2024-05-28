@@ -1,34 +1,76 @@
-const { Events } = require("discord.js");
+const { Events, EmbedBuilder } = require("discord.js");
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
-	name: Events.InteractionCreate,
-	async execute(interaction) {
-		// Deconstructed client from interaction object.
-		const { client } = interaction;
+    name: Events.InteractionCreate,
+    async execute(interaction) {
+        // Deconstructed client from interaction object.
+        const { client } = interaction;
 
-		// Checks if the interaction is a modal interaction (to prevent weird bugs)
+        // Checks if the interaction is a modal interaction (to prevent weird bugs)
+        if (!interaction.isModalSubmit()) return;
 
-		if (!interaction.isModalSubmit()) return;
+        const command = client.modalCommands.get(interaction.customId);
 
-		const command = client.modalCommands.get(interaction.customId);
+        // If the interaction is not a command in cache, return error message.
+        // You can modify the error message at ./messages/defaultModalError.js file!
+        if (!command) {
+            console.log(`No command found for customId: ${interaction.customId}`);
+            return await require("../messages/defaultModalError").execute(interaction);
+        }
+        
+        // A try to execute the interaction.
+        try {
+            if (interaction.customId === 'inactivityform') {
+                const inactivitytime = interaction.fields.getTextInputValue('inactivitytime');
+                const inactivityreason = interaction.fields.getTextInputValue('inactivityreason');
+        
+                console.log(`Received inactivity form with time: ${inactivitytime} and reason: ${inactivityreason}`);
+        
+                const embed = new EmbedBuilder()
+                    .setColor(0xFF69B4)
+                    .setTitle('Guild Inactivity Form')
+                    .setDescription(`<@${interaction.user.id}> has submitted an inactivity form.`)
+                    .addFields({ name: 'Inactivity Time', value: inactivitytime, inline: true })
+                    .addFields({ name: 'Reason', value: inactivityreason, inline: true })
+					.setTimestamp()
 
-		// If the interaction is not a command in cache, return error message.
-		// You can modify the error message at ./messages/defaultModalError.js file!
+					const logChannel = client.channels.cache.get('1244978236178305074');
+				
+					await logChannel.send({ embeds: [embed] });
+					
+					// Write the inactivity form data to a JSON file
+					const discord_id = interaction.user.id; // replace with the actual UUID
+					const discord = interaction.user; // replace with the actual Discord user object
+					const expiration = Date.now() / 1000 + inactivitytime * 60 * 60; // replace with the actual expiration time
+					
+					const data = {
+						discord: discord.tag,
+						discord_id: discord_id,
+						requested: Math.floor(new Date().getTime() / 1000),
+						requested_formatted: new Date().toLocaleString(),
+						expiration: expiration,
+						expiration_formatted: new Date(expiration * 1000).toLocaleString(),
+						reason: inactivityreason,
+					};
+					console.log(data);
+					const inactivepath = path.join(__dirname, '..', 'database/inactivemembers.json');
+					fs.writeFileSync(inactivepath, JSON.stringify(data, null, 2));
 
-		if (!command) {
-			return await require("../messages/defaultModalError").execute(interaction);
-		}
+                // Reply to the interaction to acknowledge it
+                await interaction.reply({ content: 'Your inactivity form has been submitted!', ephemeral: true });
 
-		// A try to execute the interaction.
-
-		try {
-			await command.execute(interaction);
-		} catch (err) {
-			console.error(err);
-			await interaction.reply({
-				content: "There was an issue while understanding this modal!",
-				ephemeral: true,
-			});
-		}
-	},
+            } else {
+                console.log(`Ex	ecuting command for customId: ${interaction.customId}`);
+                await command.execute(interaction);
+            }
+        } catch (err) {
+            console.error(`Error while handling interaction: ${err}`);
+            await interaction.reply({
+                content: "There was an issue while understanding this modal!",
+                ephemeral: true,
+            });
+        }
+    }
 };
