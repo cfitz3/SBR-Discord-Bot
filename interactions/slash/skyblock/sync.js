@@ -8,7 +8,6 @@ const basePath = path.join(__dirname, '..', '..', '..', 'database');
 const guildPath = path.join(basePath, 'guildcache.json');
 const userPath = path.join(basePath, 'guildmembers.json');
 
-
 // Build Slash Command
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,19 +17,21 @@ module.exports = {
     // Execution flow for verification
     async execute(interaction) {
         try {
-            const guildData = await fetchGuildInfo('Skyblock and Relax');
-            if (!guildData || !guildData.members) {
+            const guildData1 = await fetchGuildInfo('Skyblock and Relax');
+            const guildData2 = await fetchGuildInfo('Skyblock and Relax Plus'); // Replace with the second guild's name
+
+            if (!guildData1 || !guildData1.members || !guildData2 || !guildData2.members) {
                 throw new Error('Failed to fetch guild information! Please try again later.');
             }
 
-            const uuids = guildData.members.map(member => ({ uuid: member.uuid }));
+            // Combine members from both guilds
+            const combinedMembers = [...guildData1.members, ...guildData2.members];
+            const uuids = combinedMembers.map(member => ({ uuid: member.uuid }));
 
             // Save UUIDs to database/guildcache.json
-             try {
-                await fs.writeFile(filePath, JSON.stringify(uuids, null, 2), 'utf-8');
-
+            try {
+                await fs.writeFile(guildPath, JSON.stringify(uuids, null, 2), 'utf-8');
             } catch (error) {
-                
                 // If guildcache.json does not exist, create it and write UUIDs
                 await fs.writeFile(guildPath, JSON.stringify(uuids, null, 2), 'utf-8');
             }
@@ -44,30 +45,35 @@ module.exports = {
 
             const userId = interaction.user.id;
 
-          // Check if the user's UUID is present in both files
-            if (updatedGuildUUIDs.some(entry => entry.uuid === existingUserUUIDs[userId].uuid)) {
-            console.log(`UUID found: ${existingUserUUIDs[userId].uuid}`); // Log the UUID
+            // Check which guild the user belongs to
+            let guildName = null;
+            let role = null;
 
+            if (guildData1.members.some(member => member.uuid === existingUserUUIDs[userId].uuid)) {
+                guildName = 'Skyblock and Relax';
+                role = interaction.guild.roles.cache.find(role => role.id === '1176586781861355651'); // Role ID for Skyblock and Relax
+            } else if (guildData2.members.some(member => member.uuid === existingUserUUIDs[userId].uuid)) {
+                guildName = 'Skyblock and Relax Plus';
+                role = interaction.guild.roles.cache.find(role => role.id === '1254105617069510728'); // Replace with the role ID for the second guild
+            }
+
+            if (guildName && role) {
                 // Add role to member
                 const member = interaction.member;
-                const role = interaction.guild.roles.cache.find(role => role.id === '1176586781861355651');
 
                 if (member && role) {
                     await member.roles.add(role);
                 }
 
-                replied = true;
-
                 // Send verification message
-                await interaction.reply({ content: ` ${interaction.user.toString()} is now a verified member of Skyblock and Relax!`, ephemeral: true });
+                await interaction.reply({ content: ` ${interaction.user.toString()} is now a verified member of ${guildName}!`, ephemeral: true });
             } else {
                 throw new Error('UUID not found in both files');
             }
         } catch (error) {
-            console.error('Error executing refreshverify command:', error);
-            
-                // Send error message if verification fails
-                await interaction.reply({ content: `Failed to verify ${interaction.user.toString()}, please run /link and try again!`, ephemeral: true });
-            }
+            console.error('Error executing sync command:', error);
+            // Send error message if verification fails
+            await interaction.reply({ content: `Failed to verify ${interaction.user.toString()}, please run /link and try again!`, ephemeral: true });
         }
-    };
+    }
+};
