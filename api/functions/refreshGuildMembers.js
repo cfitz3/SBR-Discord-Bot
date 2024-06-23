@@ -4,7 +4,7 @@
  * @returns {Promise<void>} - A promise that resolves when the guild data is refreshed and member UUIDs are written to the file.
  */
 
-const hypixel = require('../hypixel.js');
+const hypixel = require('../../hypixel.js');
     const fs = require('fs').promises;
     const path = require('path');
     const filePath = path.join(__dirname, '..', 'database', 'guildcache.json');

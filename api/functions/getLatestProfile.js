@@ -1,8 +1,8 @@
 /* eslint-disable no-throw-literal */
-const { getUUID } = require("./mowojangAPI.js");
+const { getUUID } = require("../constants/mowojangAPI.js");
 const { getMuseum } = require("./getMuseum.js");
-const { isUuid } = require("../utils/isUUID.js");
-const config = require("../config.json");
+const { isUuid } = require("../../utils/isUUID.js");
+const config = require("../../config.json");
 const axios = require("axios");
 
 const cache = new Map();

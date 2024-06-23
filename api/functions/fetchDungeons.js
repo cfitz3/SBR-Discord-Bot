@@ -5,7 +5,7 @@
  * @returns {Promise<Object>} - A Promise that resolves to the dungeons information of the player.
  */
 
-const hypixel = require('../hypixel.js');
+const hypixel = require('../../hypixel.js');
 
 async function fetchDungeonInfo(playerName) {
     let retryCount = 0;

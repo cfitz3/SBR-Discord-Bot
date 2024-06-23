@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const hypixelRebornAPI = require("../../../hypixel.js");
-const { getUsername } = require("../../../api/mowojangAPI.js");
+const { getUsername } = require("../../../api/constants/mowojangAPI.js");
 const { Embed } = require("../../../utils/embedHandler.js");
 const config = require("../../../config.json");
 const fs = require("fs");

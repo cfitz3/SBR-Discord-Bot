@@ -1,6 +1,6 @@
 const { Events } = require('discord.js');
 const { syncHelp, linkHelp } = require('../responses/embeds/modHelp.js');
-const refreshGuildData = require('../api/refreshGuildMembers.js');
+const refreshGuildData = require('../api/functions/refreshGuildMembers.js');
 
 module.exports = {
 	name: Events.InteractionCreate,

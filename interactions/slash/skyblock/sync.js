@@ -1,6 +1,6 @@
 // Import Dependencies
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fetchGuildInfo = require('../../../api/fetchGuildInfo.js');
+const fetchGuildInfo = require('../../../api/functions/fetchGuildInfo.js');
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -63,6 +63,17 @@ module.exports = {
 
                 if (member && role) {
                     await member.roles.add(role);
+
+                }
+                
+                if ( member && role) {
+                    // Remove specific role if present
+                    const roleToRemove = interaction.guild.roles.cache.find(role => role.id === '1223804019030360216'); // Replace with the role ID to remove
+                    const member = interaction.member;
+    
+                    if (member && roleToRemove && member.roles.cache.has(roleToRemove.id)) {
+                        await member.roles.remove(roleToRemove);
+                    }
                 }
 
                 // Send verification message

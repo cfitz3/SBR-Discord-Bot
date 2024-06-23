@@ -4,7 +4,7 @@
  * @returns {Promise<Object|null>} - A promise that resolves to the player information object, or null if fetching fails after multiple retries.
  */
 
-const hypixel = require('../hypixel.js');
+const hypixel = require('../../hypixel.js');
 
 async function fetchPlayerInfo(playerName) {
     let retryCount = 0;

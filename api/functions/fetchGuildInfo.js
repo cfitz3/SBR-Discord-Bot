@@ -5,7 +5,7 @@
  * @returns {Promise<Object|null>} - A promise that resolves to the guild information object, or null if fetching fails.
  */
 
-const hypixel = require('../hypixel.js');
+const hypixel = require('../../hypixel.js');
 
 
 module.exports = async function fetchGuildInfo(guildName) {

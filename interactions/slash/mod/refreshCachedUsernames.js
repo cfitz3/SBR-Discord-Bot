@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getUsername } = require('../../../api/mowojangAPI.js'); 
+const { getUsername } = require('../../../api/constants/mowojangAPI.js'); 
 const fs = require('fs');
 const path = require('path');
 
