@@ -1,11 +1,30 @@
 {
-	"prefix": "!",
-	"token": "bot_token",
-	"owner": "withercloakid",
-	"client_id": "bot_id",
-	"test_guild_id": "debugging_server",
-	"hypixel_api_token": "apitoken",
-	"channelId": "commandchannel",
-	"guildrole": "roleid",
-	"guestrole": "roleid"
-}
+	"bot": {
+		"prefix": "!",
+		"token": "n",
+		"client_id": "n"
+	  },
+
+	  "server": {
+		"owner": "n",
+		"test_guild_id": "n",
+		"sbr_bridge_channel":"n",
+		"sbr_plus_bridge_channel": "n",
+		"channelId": "n",
+		"sbr_role": "n",
+		"sbr_plus_role":"n",
+		"guest_role": "n",
+		"requirements": "n",
+		"join_requests": "n",
+		"staff_announcements": "n"
+	
+	},
+
+	"api": {
+	  "hypixel_api_token": "n"
+	
+}}
+	  
+	 
+	
+
