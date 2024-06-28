@@ -1,6 +1,6 @@
 
 // Declare constants which will be used throughout the bot.
-const { setupBumpPostCronJob } = require('./src/jobs/bumpPost.js');
+
 const fs = require("fs");
 const {
 	Client,
