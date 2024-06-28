@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetchPlayerInfo = require('../../../api/functions/fetchPlayerInfo.js');
-const {guestRole} = require('../../../../config.json');
+const config = require('../../../../config.json');
 
 const fuck =  new EmbedBuilder()
 .setColor(0xFF69B4)
@@ -96,7 +96,7 @@ module.exports = {
                             // Add a role to the member if their highest role position is lower than ROLEID 
                             const member = interaction.member;
                             const guildRoles = interaction.guild.roles.cache;
-                            const targetRole = guildRoles.find(role => role.id === guestRole);
+                            const targetRole = guildRoles.find(role => role.id === config.server.guest_role);
 
                             if (!targetRole) {
                                 // If the target role is not found, reply with an error message
