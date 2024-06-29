@@ -11,7 +11,7 @@ module.exports = {
         const selectedOption = interaction.values[0];
 
         // Read the response from the corresponding JSON file
-        const filePath = `./responses/${selectedOption}.json`;
+        const filePath = `./src/responses/${selectedOption}.json`;
         let response;
         try {
             response = JSON.parse(fs.readFileSync(filePath, "utf8")).response;
