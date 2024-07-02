@@ -22,8 +22,28 @@ const syncHelp = new EmbedBuilder()
         { name : ':two: Linking your Discord account to our Bot:', value: 'This one is easier!:\n\n1. Run `/link` followed by your Minecraft username using <@1233695323092684842>\n2. The bot will then check you have completed the step above.\n3. If all is well, you are now linked!', inline: true }
     )
 	.setTimestamp()
+
+    const forumLinks = new EmbedBuilder()
+    .setColor(0xFF69B4)
+    .setTitle('Bump our Forum Posts!')
+    .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+    .setDescription('Click the link below to bump our posts and help advertise the guild!\n**Two credits will be awarded per post** ')
+    .addFields(
+        { name: ':recycle: Bump Links:', value: 'Click the links below to bump our posts:\n\n1. [SBR Forum](https://hypixel.net/threads/skyblock-and-relax-sbr-friendly-skyblock-guild-w-no-requirements-800m-giveaways-custom-guild-bridge-bots.5616872/)\n2. [SBR+ Forum](https://hypixel.net/threads/skyblock-relax-plus-sbr-200-member-community-800m-giveaways-custom-guild-bridge-bots.5698295/)', inline: true }
+        
+    )
+
+    const forumOops = new EmbedBuilder()
+    .setColor(0xFF69B4)
+    .setTitle('Oh No!')
+    .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+    .setDescription(`Looks like you've already bumped the post today! You can bump again in 12 hours.`)
+    .setTimestamp()
+
 	
     module.exports = {
         syncHelp,
-        linkHelp
+        linkHelp,
+        forumLinks,
+        forumOops
     };

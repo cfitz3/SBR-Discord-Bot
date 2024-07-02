@@ -22,6 +22,14 @@
 
 	"api": {
 	  "hypixel_api_token": "n"
+
+	},
+
+	"db": {
+		"host": "n",
+		"user": "n",
+		"password": "n",
+		"database": "n"
 	
 }}
 	  

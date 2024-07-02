@@ -12,6 +12,9 @@ const {
 } = require("discord.js");
 const config = require("./config.json");
 
+const Database = require('./src/api/constants/sql.js'); // Adjust the path as necessary
+const dbInstance = Database; // This will trigger the connection
+
 /**
  * From v13, specifying the intents is compulsory.
  * @type {import('./typings').Client}
@@ -293,9 +296,5 @@ for (const folder of triggerFolders) {
 	}
 }
 
-
-
 // Login into your client application with bot's token.
-
-
 client.login(config.bot.token);

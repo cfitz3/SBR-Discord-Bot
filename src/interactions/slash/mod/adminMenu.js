@@ -2,12 +2,13 @@ const { ActionRowBuilder, ButtonBuilder, SlashCommandBuilder, EmbedBuilder, Butt
 
 const modHelpMenu = new EmbedBuilder()
     .setColor(0xFF69B4)
-    .setTitle('Mod Help Menu')
-    .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
-    .setDescription('Welcome to the Moderator control panel. Not sure what to say or do? There are a few options below to help you out!')
+    .setTitle('Admin Menu')
+    .setAuthor({ name: 'SBR Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+    .setDescription(`Welcome to the Administrator control panel! Don't fuck anything up!`)
     .setTimestamp()
-    .setFooter({ text: 'If this breaks let me know ASAP- WIther' })
+    .setFooter({ text: 'If anything breaks let me know ASAP- WIther' })
 
+/*
 const syncHelpButton = new ButtonBuilder()
     .setCustomId('syncHelpButton')
     .setLabel('Verify Help')
@@ -17,6 +18,7 @@ const linkHelpButton = new ButtonBuilder()
         .setCustomId('linkHelpButton')
         .setLabel('Link Help')
         .setStyle(ButtonStyle.Success);
+*/
 
 const restartGuildButton = new ButtonBuilder()
         .setCustomId('restartGuildButton')
@@ -33,8 +35,13 @@ const ticketsLinkButton = new ButtonBuilder()
         .setURL(`http://5.161.243.233:8169/settings/1176585490636488794`)
         .setStyle(ButtonStyle.Link);
 
+const startJobsButton = new ButtonBuilder()
+        .setCustomId('startJobsButton')
+        .setLabel('Start Jobs')
+        .setStyle(ButtonStyle.Success);
+
         const helpRow = new ActionRowBuilder()
-            .addComponents(syncHelpButton, linkHelpButton, manualGuildRefreshButton, ticketsLinkButton, restartGuildButton );
+            .addComponents(manualGuildRefreshButton, ticketsLinkButton, restartGuildButton, startJobsButton );
              
 
 module.exports = {
