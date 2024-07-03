@@ -29,7 +29,7 @@ module.exports = {
         } else if (interaction.customId === 'sbr_bump') {
           const awarded = await incrementUserCredit(interaction, 2);
           if (awarded) {
-            await interaction.reply({ content: 'Bumped the post! You have been awarded 2 credits!', embeds: [forumLinks], ephemeral: true });
+            await interaction.reply({ content: 'Thank you for the support!', embeds: [forumLinks], ephemeral: true });
           } else {
             // Reply with a different message if credits were not awarded
             await interaction.reply({ content: 'Uh Oh!', embeds: [forumOops], ephemeral: true });

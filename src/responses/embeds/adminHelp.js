@@ -27,7 +27,7 @@ const syncHelp = new EmbedBuilder()
     .setColor(0xFF69B4)
     .setTitle('Bump our Forum Posts!')
     .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
-    .setDescription('Click the link below to bump our posts and help advertise the guild!\n**Two credits will be awarded per post** ')
+    .setDescription('Click the link below to bump our posts and help advertise the guild!\n**One credit will be awarded per post!** ')
     .addFields(
         { name: ':recycle: Bump Links:', value: 'Click the links below to bump our posts:\n\n1. [SBR Forum](https://hypixel.net/threads/skyblock-and-relax-sbr-friendly-skyblock-guild-w-no-requirements-800m-giveaways-custom-guild-bridge-bots.5616872/)\n2. [SBR+ Forum](https://hypixel.net/threads/skyblock-relax-plus-sbr-200-member-community-800m-giveaways-custom-guild-bridge-bots.5698295/)', inline: true }
         
