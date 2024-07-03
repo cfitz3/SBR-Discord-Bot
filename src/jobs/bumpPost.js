@@ -24,9 +24,9 @@ async function bumpPost(client) {
     const sbrPlusBridgeChannel = await client.channels.cache.get(config.server.sbr_plus_bridge_channel);    
 
     if (sbrBridgeChannel && sbrPlusBridgeChannel) {
-        await sbrBridgeChannel.send({ content: 'Remember click the buttons below to bump our Forum Posts for bonus server credits!', embeds: [bumpEmbed], components: [bumpRow] })
+        await sbrBridgeChannel.send({ content: 'Remember click this server post below to bump our Forum Posts for bonus server credits!', embeds: [bumpEmbed], components: [bumpRow] })
             .then(() => console.log('Post sent to SBR Forum channel at', new Date().toISOString()));
-        await sbrPlusBridgeChannel.send({ content: 'Remember click the buttons below to bump our Forum Posts for bonus server credits!', embeds: [bumpEmbed], components: [bumpRow] })
+        await sbrPlusBridgeChannel.send({ content: 'Remember click this server post to bump our Forum Posts for bonus server credits!', embeds: [bumpEmbed], components: [bumpRow] })
             .then(() => console.log('Post sent to SBR+ Forum channel at', new Date().toISOString()));
     }
 }
