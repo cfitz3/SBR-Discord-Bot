@@ -6,7 +6,6 @@ async function bumpPost(client) {
     const bumpEmbed = new EmbedBuilder()
         .setColor(2067276)
         .setAuthor({ name: "Bump our Forum Posts!" })
-        .setTitle('Remember to bump our Forum Posts for bonus server credits!')
         .setDescription(`Click the link below to bump our posts and help advertise the guild!\n**Two credits will be awarded per post** `)
         .setFooter({
             text: `by @withercloak | Open a ticket in #support!`,
@@ -25,9 +24,9 @@ async function bumpPost(client) {
     const sbrPlusBridgeChannel = await client.channels.cache.get(config.server.sbr_plus_bridge_channel);    
 
     if (sbrBridgeChannel && sbrPlusBridgeChannel) {
-        await sbrBridgeChannel.send({ embeds: [bumpEmbed], components: [bumpRow] })
+        await sbrBridgeChannel.send({ content: 'Remember click the buttons below to bump our Forum Posts for bonus server credits!', embeds: [bumpEmbed], components: [bumpRow] })
             .then(() => console.log('Post sent to SBR Forum channel at', new Date().toISOString()));
-        await sbrPlusBridgeChannel.send({ embeds: [bumpEmbed], components: [bumpRow] })
+        await sbrPlusBridgeChannel.send({ content: 'Remember click the buttons below to bump our Forum Posts for bonus server credits!', embeds: [bumpEmbed], components: [bumpRow] })
             .then(() => console.log('Post sent to SBR+ Forum channel at', new Date().toISOString()));
     }
 }
