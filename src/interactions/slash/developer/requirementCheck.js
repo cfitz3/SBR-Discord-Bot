@@ -39,7 +39,7 @@ module.exports = {
             const totalLevelWithProgress = skillKeys.reduce((total, skill) => total + skills[skill].levelWithProgress, 0);
             const skillAverage = (totalLevelWithProgress / skillKeys.length).toFixed(2);
 
-            const meetsRequirements = profile.senither.total > 4000 && profile.lily.total > 4000;
+            const meetsRequirements = profile.senither.total > 4000 || profile.lily.total > 4000;
 
             const checkEmbed = new EmbedBuilder()
                 .setColor(`${meetsRequirements ? '#b2fba5' : '#ee6969'}`)
