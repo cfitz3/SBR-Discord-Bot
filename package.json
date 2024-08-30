@@ -44,6 +44,7 @@
 		"lilyweight": "^2.7.2",
 		"mysql": "^2.18.1",
 		"node-cron": "^3.0.3",
+		"redis": "^4.7.0",
 		"senitherweight": "^1.0.8",
 		"skyhelper-networth": "^1.20.0"
 	}

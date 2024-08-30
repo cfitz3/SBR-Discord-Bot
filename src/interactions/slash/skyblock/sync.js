@@ -1,4 +1,3 @@
-// Import Dependencies
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetchGuildInfo = require('../../../api/functions/fetchGuildInfo.js');
 const fs = require('fs').promises;
@@ -8,17 +7,15 @@ const basePath = path.join(__dirname, '..', '..', '..', 'database');
 const guildPath = path.join(basePath, 'guildcache.json');
 const userPath = path.join(basePath, 'guildmembers.json');
 
-// Build Slash Command
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('sync')
         .setDescription('Verify that you are in the guild and sync your roles!'),
 
-    // Execution flow for verification
     async execute(interaction) {
         try {
             const guildData1 = await fetchGuildInfo('Skyblock and Relax');
-            const guildData2 = await fetchGuildInfo('Skyblock and Relax Plus'); // Replace with the second guild's name
+            const guildData2 = await fetchGuildInfo('Skyblock and Relax Plus'); 
 
             if (!guildData1 || !guildData1.members || !guildData2 || !guildData2.members) {
                 throw new Error('Failed to fetch guild information! Please try again later.');

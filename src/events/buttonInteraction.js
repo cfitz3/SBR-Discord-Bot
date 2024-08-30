@@ -2,7 +2,7 @@ const { Events } = require('discord.js');
 const { syncHelp, linkHelp, forumLinks, forumOops } = require('../responses/embeds/adminHelp.js');
 const refreshGuildData = require('../api/functions/refreshGuildMembers.js');
 const { bumpPost } = require('../jobs/bumpPost.js');
-const { incrementUserCredit } = require('../contracts/credits.js');
+const { incrementUserCredit } = require('../features/credits.js');
 
 module.exports = {
 	name: Events.InteractionCreate,
