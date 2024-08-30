@@ -40,10 +40,63 @@ const syncHelp = new EmbedBuilder()
     .setDescription(`Looks like you've already bumped the post today! You can bump again in 12 hours.`)
     .setTimestamp()
 
+    
+    const guildJoinEmbed = new EmbedBuilder()
+    .setTitle('🏳️ Join The Guild!')
+    .setDescription("Pick a guild to join from the menu below and you'll be automatically invited!\n\n**How it works:**\n- Pick a guild below.\n- Enter your Minecraft Username in the text box.\n- Click Submit!")
+    .setFooter({ 
+        text: "Issues with the bot? Open a ticket in #support or contact @withercloak!", 
+        iconURL: "https://cdn.discordapp.com/avatars/729688465041522718/6631d3ec83e132a1be44336d59477efd.webp?size=4096"
+    })
+    .setAuthor({ 
+        name: "SBR Discord Bot", 
+        iconURL: "https://i.imgur.com/9wP2alI.png"
+    })
+    .setColor('#e7c6ff');
+
+        
+    function createInactivityForm(interaction, inactivitytime, inactivityreason) {
+        return new EmbedBuilder()
+            .setColor(0xFF69B4)
+            .setTitle('Guild Inactivity Form')
+            .setDescription(`<@${interaction.user.id}> has submitted an inactivity form.`)
+            .addFields({ name: 'Inactivity Time', value: inactivitytime, inline: true })
+            .addFields({ name: 'Reason', value: inactivityreason, inline: true })
+            .setTimestamp();
+    }
+
+   function createWelcomeEmbed(member) {
+        return new EmbedBuilder()
+        .setColor(0xFF69B4)
+        .setTitle(`:wave: Welcome to the server!`)
+        .setAuthor({ name: 'SBR Guild Bot', iconURL: 'https://i.imgur.com/eboO5Do.png' })
+        .setDescription('Want to join our guilds? Do /join with <@1233695323092684842> in #bot-commands!')
+        .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+        .setTimestamp()
+        .setFooter({ text: 'Need Help? Find out more in #support! | by @withercloak' });
+   }
+   
+   function createGuildJoinEmbed(username, interaction) {
+    return new EmbedBuilder()
+   .setDescription('\n')
+   .addFields(
+       { name: '⠀\n<:grassblock:1278862195106512936> **Minecraft IGN:**', value: `\`${username}\``, inline: true },
+       { name: '⠀\n<:clyde:1278864427709497427> **Discord Username:**', value: `\`${interaction.user.username}\``, inline: true },
+       { name: '🛡️ **Background Check:**', value: '`Passed!`', inline: false }
+   )
+   .setColor('#e7c6ff')
+   .setThumbnail(interaction.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 }))
+   .setTimestamp()
+   .setAuthor({ name: 'SBR Discord Bot', iconURL: 'https://i.imgur.com/9wP2alI.png'});
+}
 	
     module.exports = {
         syncHelp,
         linkHelp,
         forumLinks,
-        forumOops
+        forumOops,
+        createInactivityForm,
+        createWelcomeEmbed,
+        createGuildJoinEmbed,
+        guildJoinEmbed
     };

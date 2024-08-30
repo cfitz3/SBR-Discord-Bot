@@ -71,13 +71,13 @@ async function subscribeToChannel(channel, messageHandler) {
       console.log('Payload Received:', message);
       try {
         const parsedPayload = JSON.parse(message); // Parse the incoming message JSON
-        messageHandler(parsedPayload.messageId, parsedPayload.message, parsedPayload.colouredMessage); // Call the handler
+        messageHandler(parsedPayload.messageId, parsedPayload.message, parsedPayload.colouredMessage); 
       } catch (parseError) {
-        console.error('Error parsing message:', parseError); // Handle JSON parse errors
+        console.error('Error parsing message:', parseError); 
       }
     });
   } catch (err) {
-    console.error('Redis connection error:', err); // Handle Redis connection errors
+    console.error('Redis connection error:', err); 
   }
 }
 
@@ -85,5 +85,5 @@ module.exports = {
   redisPublisherClient,
   publishMessage,
   subscribeToChannel,
-  handleRedisMessage,  // Exporting the message handler function
+  handleRedisMessage
 };

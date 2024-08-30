@@ -1,75 +1,47 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { lookupPlayer } = require('../../../api/functions/scammerLookup.js');
-const { publishMessage } = require('../../../api/constants/redisManager.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
+const  guildJoinEmbed  = require('../../../responses/embeds/adminEmbeds.js');
+
+
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('join')
-        .setDescription('Join the Guild!')
-        .addStringOption(option =>
-            option.setName('username')
-                .setDescription('Your Minecraft username.')
-                .setRequired(true)),
+        .setDescription('Join the Guild!'),
         
     async execute(interaction) {
         try {
-            const username = interaction.options.getString('username');
-            const playerLookup = await lookupPlayer(username);
-      
-            if (playerLookup.entries && playerLookup.entries.length > 0) {
-                await interaction.reply('Your account has been flagged as suspicious. You cannot join the guild.');
-                await interaction.member.roles.add('1278868448335626260');
-                return;
-            }
 
-            const embed = new EmbedBuilder()
-                .setDescription('\n')
-                .addFields(
-                    { name: '⠀\n<:grassblock:1278862195106512936> **Minecraft IGN:**', value: `\`${username}\``, inline: true },
-                    { name: '⠀\n<:clyde:1278864427709497427> **Discord Username:**', value: `\`${interaction.user.username}\``, inline: true },
-                    { name: '🛡️ **Background Check:**', value: '`Passed!`', inline: false }
-                )
-                .setColor('#e7c6ff')
-                .setThumbnail(interaction.user.displayAvatarURL({ format: 'png', dynamic: true, size: 128 }))
-                .setTimestamp()
-                .setAuthor({ name: 'SBR Discord Bot', iconURL: 'https://i.imgur.com/9wP2alI.png'});
-
-            const row = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('join_main')
+            const selectMenu = new StringSelectMenuBuilder()
+                .setCustomId('guild_join_menu')
+                .setPlaceholder('Select an option')
+                .addOptions(
+                    new StringSelectMenuOptionBuilder()
                         .setLabel('Join SBR')
-                        .setStyle(ButtonStyle.Secondary), 
-                    new ButtonBuilder()
-                        .setCustomId('join_plus')
+                        .setValue('sbr'),
+                    new StringSelectMenuOptionBuilder()
                         .setLabel('Join SBR+')
-                        .setStyle(ButtonStyle.Secondary) 
+                        .setValue('sbr_plus')
                 );
 
-            await interaction.reply({ embeds: [embed], components: [row] });
+                const guildJoinEmbed = new EmbedBuilder()
+                .setTitle('🏳️ Join The Guild!')
+                .setDescription("Pick a guild to join from the menu below and you'll be automatically invited!\n\n**How it works:**\n- Pick a guild below.\n- Enter your Minecraft Username in the text box.\n- Click Submit!")
+                .setFooter({ 
+                    text: "Issues with the bot? Open a ticket in #support or contact @withercloak!", 
+                    iconURL: "https://cdn.discordapp.com/avatars/729688465041522718/6631d3ec83e132a1be44336d59477efd.webp?size=4096"
+                })
+                .setAuthor({ 
+                    name: "SBR Discord Bot", 
+                    iconURL: "https://i.imgur.com/9wP2alI.png"
+                })
+                .setColor('#e7c6ff');
 
-            const filter = i => i.user.id === interaction.user.id;
-            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
+            const row = new ActionRowBuilder().addComponents(selectMenu);
 
-            collector.on('collect', async i => {
-                if (i.customId === 'join_main') {
-                    // Publish to the 'invite-channel' Redis channel
-                    await publishMessage('invite-channel', 'invite', username);
-                    await i.update({ content: 'You have been invited! Make sure to do /sync when you join!', components: [] });
-                } else if (i.customId === 'join_plus') {
-                    // Publish to the 'other-channel' Redis channel
-                    await publishMessage('plus_invite_channel', 'invite', username);
-                    await i.update({ content: 'You have been invited! Make sure to do /sync when you join!', components: [] });
-                }
-            });
+            await interaction.reply({ embeds: [guildJoinEmbed], components: [row] });
 
-            collector.on('end', collected => {
-                if (collected.size === 0) {
-                    interaction.editReply({ content: 'You failed to make a decision!', components: [] });
-                }
-            });
         } catch (error) {
-            console.error('Error in jointest:', error);
+            console.error('Error in join command:', error);
             await interaction.reply('There was an error processing your request.');
         }
     }

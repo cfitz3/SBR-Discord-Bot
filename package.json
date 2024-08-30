@@ -2,7 +2,7 @@
 	"name": "sbr-bot",
 	"version": "0.0.1",
 	"description": "An attempt at automating some elements of the guild's discord server",
-	"funding": "https://ko-fi.com/namanvrati",
+	"funding": "https://withercloak.dev",
 	"types": "./typings.d.ts",
 	"main": "bot.js",
 	"scripts": {
@@ -10,32 +10,22 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/NamVr/DiscordBot-Template.git"
+		"url": "git+https://github.com/cfitz3/sbr-bot.git"
 	},
 	"keywords": [
 		"discord-js"
 	],
 	"author": {
-		"name": "Naman Vrati",
-		"url": "https://github.com/NamVr",
-		"email": "info@namanvrati.cf"
+		"name": "C. Fitzpatrick",
+		"url": "https://github.com/cfitz3",
+		"email": "info@withercloak.dev"
 	},
-	"contributors": [
-		{
-			"name": "Krish Garg",
-			"url": "https://github.com/KrishGarg"
-		},
-		{
-			"name": "Thomas Fournier",
-			"email": "thomas@artivain.com",
-			"url": "https://github.com/GoudronViande24"
-		}
-	],
+
 	"license": "Apache-2.0",
 	"bugs": {
-		"url": "https://github.com/NamVr/DiscordBot-Template/issues"
+		"url": "https://github.com/cfitz3/sbr-bot"
 	},
-	"homepage": "https://github.com/NamVr/DiscordBot-Template#readme",
+	"homepage": "https://github.com/cfitz3/sbr-bot",
 	"dependencies": {
 		"axios": "^1.6.8",
 		"discord-api-types": "^0.37.43",
