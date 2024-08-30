@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { getUUID }= require('../constants/mowoJangAPI')
+const { getUUID }= require('../constants/mowojangAPI.js')
 const config = require('../../../config.json');
 
 async function lookupPlayer(username) {
