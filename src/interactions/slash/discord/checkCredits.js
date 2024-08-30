@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { getUserCredits } = require('../../../contracts/credits.js');
+const { getUserCredits } = require('../../../features/credits.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
