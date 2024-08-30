@@ -58,7 +58,7 @@ module.exports = {
                     await i.update({ content: 'You have been invited! Make sure to do /sync when you join!', components: [] });
                 } else if (i.customId === 'join_plus') {
                     // Publish to the 'other-channel' Redis channel
-                    await publishMessage('plus_invite_channel', 'other', username);
+                    await publishMessage('plus_invite_channel', 'invite', username);
                     await i.update({ content: 'You have been invited! Make sure to do /sync when you join!', components: [] });
                 }
             });
