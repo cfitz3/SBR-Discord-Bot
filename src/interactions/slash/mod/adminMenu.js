@@ -32,7 +32,7 @@ const manualGuildRefreshButton = new ButtonBuilder()
 
 const ticketsLinkButton = new ButtonBuilder()
         .setLabel('Ticket Dashboard')
-        .setURL(`http://5.161.243.233:8169/settings/1176585490636488794`)
+        .setURL(`http://195.201.242.60:8169/settings/1176585490636488794`)
         .setStyle(ButtonStyle.Link);
 
 const startJobsButton = new ButtonBuilder()
