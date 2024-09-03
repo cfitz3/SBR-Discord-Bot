@@ -41,28 +41,53 @@ module.exports = {
             const row = new ActionRowBuilder()
                 .addComponents(button1, button2);
 
+        // Disable the buttons after the collector ends
+
+            const disabledbutton1 = new ButtonBuilder()
+                .setCustomId('accept')
+                .setLabel('Accept')
+                .setDisabled(true)
+                .setStyle(ButtonStyle.Success);
+
+            const disabledbutton2 = new ButtonBuilder()
+                .setCustomId('deny')
+                .setLabel('Deny')
+                .setDisabled(true)
+                .setStyle(ButtonStyle.Danger);
+
+            const disabledrow = new ActionRowBuilder()
+                .addComponents(disabledbutton1, disabledbutton2);
+
             await interaction.reply({ embeds: [embed], components: [row] });
 
             const filter = (interaction) => interaction.member.roles.cache.has(config.server.admin);
-            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
-
-            collector.on('collect', async (interaction) => {
-                if (interaction.customId === 'accept') {
-                    await interaction.member.roles.add(config.server.whitelist_role);
-                    // Write username and uuid to testdatabase.json
-                    const data = [{
-                        uuid: uuid,
-                        name: username
-                    }];
-                    const filePath = path.join(__dirname, '../../../Modded-Server/whitelist.json');
-                    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-                } else if (interaction.customId === 'deny') {
-                    await interaction.reply('Your application has been denied.');
-                }
-            }); 
+            const collector = interaction.channel.createMessageComponentCollector({ filter });
+            
+            try {
+                collector.on('collect', async (interaction) => {
+                    if (interaction.customId === 'accept') {
+                        console.log(interaction.customId);
+                        await interaction.member.roles.add(config.server.whitelist_role);
+                        // Write username and uuid to testdatabase.json
+                        const data = [{
+                            uuid: uuid,
+                            name: username
+                        }];
+                        const filePath = path.join(__dirname, '../../../Modded-Server/whitelist.json');
+                        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+                        collector.stop(); // Stop the collector when an interaction is made
+                    } else if (interaction.customId === 'deny') {
+                        await interaction.reply('Your application has been denied.');
+                        collector.stop(); // Stop the collector when an interaction is made
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
 
             collector.on('end', () => {
                 // Collector ended
+                interaction.editReply({ embeds: [embed], components: [disabledrow] });
             });
 
         } catch (error) {  
