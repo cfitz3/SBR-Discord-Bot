@@ -75,7 +75,7 @@ module.exports = {
                 }
 
                 const channel = interaction.customId === 'join_sbr' ? 'invite-channel' : 'plus_invite_channel';
-                await publishMessage(channel, 'invite', interaction.user.username);
+                await publishMessage(channel, 'invite', username);
 
                 const embed = createGuildJoinEmbed(username, interaction);
                 await interaction.reply({ content: 'You have been invited! Make sure to do /sync when you join!', embeds: [embed], ephemeral: true });
