@@ -73,8 +73,18 @@ module.exports = {
                             uuid: uuid,
                             name: username
                         }];
-                        const filePath = path.join(__dirname, '../../../Modded-Server/whitelist.json');
-                        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+			const filePath = path.join(__dirname, '../../../../../../Modded-Server/whitelist.json');
+
+			
+			const updateWhitelist = (filePath, newEntry) => {
+    			const existingData = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
+    			existingData.push(newEntry);
+    			fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2));
+			};
+
+			updateWhitelist(filePath, { uuid: uuid, name: username });
+
+			await interaction.reply('Your application has been accepted!');
                         collector.stop(); // Stop the collector when an interaction is made
                     } else if (interaction.customId === 'deny') {
                         await interaction.reply('Your application has been denied.');
